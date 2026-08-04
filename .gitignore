@@ -10,15 +10,10 @@ act/
 .act-sandbox-agent.*
 .venv/
 .venv
-.vscode/
-.env
 .op.env
-.env.local
 .env.development.local
 .env.test.local
 .env.production.local
-.env.development
-.env.test
 .hermes-docker/
 .notebooklm-home/
 .notebooklm-cli-venv/
@@ -194,3 +189,4 @@ native/fts5_cjk/*.so
 # interrupted; consumed by launch-time recovery. Never commit it (was tracked
 # by accident via 3a69e34702, removed in the #72002 salvage).
 .lazy-refresh-incomplete
+config.bat

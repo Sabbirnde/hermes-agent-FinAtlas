@@ -88,8 +88,8 @@ function Nav({ selectedCountry, onCountryChange }: { selectedCountry: Country; o
   return (
     <nav className="nav">
       <a href="/" className="nav-logo">
-        <div className="nav-logo-icon">CA</div>
-        <span className="nav-logo-text">COMPARE <span>AI</span></span>
+        <div className="nav-logo-icon">FA</div>
+        <span className="nav-logo-text">Fin<span>Atlas</span></span>
       </a>
       <div className="nav-links">
         <button className="nav-country-pill" onClick={onCountryChange}>
@@ -444,15 +444,14 @@ export default function App() {
         <main>
           {/* Hero */}
           <section className="hero">
-            <div className="hero-badge">AI Financial Research · Evidence-Backed · Official Sources</div>
+            <div className="hero-badge">AI Financial Product Research Agent · Evidence-Backed Recommendations</div>
             <h1 className="hero-title">
-              Research any financial product,<br />
-              <span className="highlight">worldwide.</span>
+              Find, verify, and compare<br />
+              <span className="highlight">financial products.</span>
             </h1>
             <p className="hero-subtitle">
-              Ask COMPARE AI about loans, savings, FDR, DPS, and more.
-              It researches official sources, verifies the information,
-              calculates costs, and ranks the best matches.
+              FinAtlas finds, verifies, and compares loans, savings, FDRs, DPS, and other financial products from official sources.
+              It analyzes rates, fees, eligibility, and returns to deliver trusted, evidence-backed recommendations.
             </p>
 
             {/* Search */}
@@ -511,7 +510,7 @@ export default function App() {
 
           {/* How it works */}
           <section style={{ padding: '0 24px 64px', maxWidth: '900px', margin: '0 auto' }}>
-            <p className="section-label" style={{ textAlign: 'center', marginBottom: '24px' }}>How COMPARE AI works</p>
+            <p className="section-label" style={{ textAlign: 'center', marginBottom: '24px' }}>How FinAtlas works</p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
               {[
                 { icon: '🔍', title: 'Research', desc: 'Searches official bank websites, rate sheets, and regulatory sources' },
@@ -537,7 +536,7 @@ export default function App() {
 
         {/* Disclaimer */}
         <div className="disclaimer-banner">
-          COMPARE AI provides financial product information for research purposes only.
+          FinAtlas provides financial product information for research purposes only.
           It does not provide financial advice, guarantee loan approval, or guarantee returns.
           Always verify with the financial institution before making decisions.
         </div>
@@ -600,7 +599,7 @@ export default function App() {
                 <div className="empty-title">Ready to research</div>
                 <div className="empty-subtitle">
                   Ask about any financial product in {selectedCountry.name}.
-                  COMPARE AI will search official sources and return verified results.
+                  FinAtlas will search official sources and return verified results.
                 </div>
               </div>
             )}
@@ -646,7 +645,7 @@ export default function App() {
           </div>
 
           <div className="disclaimer-banner">
-            COMPARE AI · Evidence-backed financial research · Not financial advice
+            FinAtlas · Evidence-backed financial research · Not financial advice
           </div>
         </div>
       </div>

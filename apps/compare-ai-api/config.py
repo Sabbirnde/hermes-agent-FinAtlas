@@ -7,7 +7,7 @@ from typing import Optional
 
 
 class Settings:
-    APP_NAME: str = "COMPARE AI"
+    APP_NAME: str = "FinAtlas"
     VERSION: str = "1.0.0"
     DEBUG: bool = os.getenv("DEBUG", "false").lower() == "true"
 

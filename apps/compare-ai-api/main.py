@@ -1,6 +1,6 @@
 """
-COMPARE AI — FastAPI Backend
-Global AI Financial Product Research API
+FinAtlas — FastAPI Backend
+AI Financial Product Research Agent API
 """
 
 from __future__ import annotations
@@ -17,16 +17,17 @@ from .routers import research, products, countries, compare, ws
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan — startup and shutdown."""
-    print(f"🌍 COMPARE AI API starting — {settings.APP_NAME} v{settings.VERSION}")
+    print(f"🌍 FinAtlas API starting — {settings.APP_NAME} v{settings.VERSION}")
     yield
-    print("COMPARE AI API shutting down.")
+    print("FinAtlas API shutting down.")
 
 
 app = FastAPI(
-    title="COMPARE AI API",
+    title="FinAtlas API",
     description=(
-        "Global AI Financial Product Research Pipeline. "
-        "Research, verify, and compare financial products from official sources worldwide."
+        "FinAtlas is an AI Financial Product Research Agent that finds, verifies, and compares loans, savings, "
+        "FDRs, DPS, and other financial products from official sources. It analyzes rates, fees, eligibility, "
+        "and returns to deliver trusted, evidence-backed recommendations."
     ),
     version="1.0.0",
     docs_url="/api/docs",
