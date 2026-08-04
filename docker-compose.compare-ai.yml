@@ -1,0 +1,96 @@
+version: "3.9"
+
+services:
+  # ── PostgreSQL ─────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: compare-ai-db
+    environment:
+      POSTGRES_DB: compare_ai
+      POSTGRES_USER: compare_ai
+      POSTGRES_PASSWORD: compare_ai_dev_password
+    volumes:
+      - compare_ai_postgres:/var/lib/postgresql/data
+      - ./database/migrations:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U compare_ai"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ── Redis ──────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: compare-ai-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ── FastAPI Backend ────────────────────────────────────────────────────────
+  api:
+    build:
+      context: ./apps/compare-ai-api
+      dockerfile: ../../Dockerfile.api
+    container_name: compare-ai-api
+    environment:
+      COMPARE_AI_DB_URL: postgresql+asyncpg://compare_ai:compare_ai_dev_password@postgres:5432/compare_ai
+      COMPARE_AI_REDIS_URL: redis://redis:6379/0
+      DEBUG: "true"
+    env_file:
+      - .env.compare-ai
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./apps/compare-ai-api:/app
+      - ./skills/finance/compare-ai:/skills/finance/compare-ai
+    restart: unless-stopped
+
+  # ── Celery Workers ─────────────────────────────────────────────────────────
+  worker:
+    build:
+      context: ./apps/compare-ai-api
+      dockerfile: ../../Dockerfile.api
+    container_name: compare-ai-worker
+    command: celery -A tasks.celery_app worker --loglevel=info --concurrency=4
+    environment:
+      COMPARE_AI_DB_URL: postgresql+asyncpg://compare_ai:compare_ai_dev_password@postgres:5432/compare_ai
+      COMPARE_AI_REDIS_URL: redis://redis:6379/0
+    env_file:
+      - .env.compare-ai
+    depends_on:
+      - api
+      - redis
+    volumes:
+      - ./apps/compare-ai-api:/app
+      - ./skills/finance/compare-ai:/skills/finance/compare-ai
+    restart: unless-stopped
+
+  # ── Next.js / React Frontend ───────────────────────────────────────────────
+  web:
+    image: node:20-alpine
+    container_name: compare-ai-web
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    environment:
+      VITE_API_URL: http://api:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    volumes:
+      - ./apps/compare-ai-web:/app
+    restart: unless-stopped
+
+volumes:
+  compare_ai_postgres:
